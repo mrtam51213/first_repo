@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 from .models import Product
 
 
@@ -13,6 +13,10 @@ class ProductListView(ListView):
         queryset = Product.objects.all()
         if 'query' in self.request.GET:
             qs = self.request.GET['query']
-            queryset = queryset.filter(name_contains=qs)
-            return queryset
+            queryset = queryset.filter(name__contains=qs)
+        return queryset
             
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "mamazon/detail.html"
